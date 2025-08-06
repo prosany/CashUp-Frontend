@@ -141,7 +141,14 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
           </span>
         </div>
 
-        <button className='text-xs font-medium text-white bg-red-600 hover:bg-red-700 transition px-4 py-1.5 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-red-400'>
+        <button
+          onClick={() => {
+            stopCamera().then(() => {
+              onScanComplete?.(true);
+            });
+          }}
+          className='text-xs font-medium text-white bg-red-600 hover:bg-red-700 transition px-4 py-1.5 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-red-400'
+        >
           Cancel
         </button>
       </div>
