@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/browser';
 import { DecodeHintType } from '@zxing/library';
 
@@ -83,7 +83,7 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
         reader.decodeFromVideoDevice(
           backCamera.deviceId,
           videoRef.current!,
-          async (result, error, controls) => {
+          async (result, _error, controls) => {
             controlsRef.current = controls;
 
             if (result && !hasScanned.current) {
