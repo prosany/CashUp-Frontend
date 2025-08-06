@@ -113,7 +113,7 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
   }, [onResult, onScanComplete]);
 
   return (
-    <div className='absolute top-0 left-0 w-full h-dvh max-w-md mx-auto aspect-video overflow-hidden shadow-lg border-4 border-gray-800'>
+    <div className='fixed top-0 left-0 w-full h-dvh max-w-md mx-auto aspect-video overflow-hidden shadow-lg border-4 border-gray-800'>
       {error && (
         <div className='absolute top-2 left-2 right-2 bg-red-600 text-white px-3 py-1 rounded z-10 text-center font-semibold'>
           {error}
@@ -134,8 +134,16 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
         </div>
       </div>
 
-      <div className='absolute bottom-2 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded select-none'>
-        Align barcode inside the box
+      <div className='w-full absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4 z-10 px-4'>
+        <div className='flex items-center gap-2 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full shadow-md'>
+          <span className='text-white text-xs font-medium select-none capitalize'>
+            Align the barcode inside the frame
+          </span>
+        </div>
+
+        <button className='text-xs font-medium text-white bg-red-600 hover:bg-red-700 transition px-4 py-1.5 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-red-400'>
+          Cancel
+        </button>
       </div>
     </div>
   );
