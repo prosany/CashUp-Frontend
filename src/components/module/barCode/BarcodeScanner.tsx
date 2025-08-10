@@ -73,12 +73,28 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
     readerRef.current = reader;
 
     BrowserMultiFormatReader.listVideoInputDevices()
-      .then((devices) => {
+      .then(async (devices) => {
         if (!devices.length) throw new Error('No camera found');
 
         const backCamera =
           devices.find((d) => d.label.toLowerCase().includes('back')) ||
           devices[0];
+
+        // Request media with focus & zoom constraints
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: backCamera.deviceId,
+            facingMode: { ideal: 'environment' }, // forces back camera
+            focusMode: 'continuous', // auto-focus while scanning
+            zoom: { ideal: 2 }, // slight zoom helps barcodes
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+          } as any,
+        });
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
 
         reader.decodeFromVideoDevice(
           backCamera.deviceId,
