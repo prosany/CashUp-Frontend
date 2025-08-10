@@ -86,8 +86,8 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
             deviceId: backCamera.deviceId,
             facingMode: { ideal: 'environment' },
             focusMode: 'continuous',
-            torch: true,
-            zoom: { ideal: 3 }, // slight zoom helps barcodes
+            // torch: true,
+            zoom: { ideal: 3 },
             width: { ideal: 1920 },
             height: { ideal: 1080 },
           } as any,
@@ -109,12 +109,8 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
               const code = result.getText();
               onResult(code);
 
-              try {
-                await stopCamera();
-                onScanComplete?.(true);
-              } catch {
-                // stopCamera error handled inside stopCamera
-              }
+              await stopCamera();
+              onScanComplete?.(true);
             }
           }
         );
