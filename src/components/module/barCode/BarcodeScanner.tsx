@@ -84,11 +84,12 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
             deviceId: backCamera.deviceId,
-            facingMode: { ideal: 'environment' }, // forces back camera
-            focusMode: 'continuous', // auto-focus while scanning
-            zoom: { ideal: 2 }, // slight zoom helps barcodes
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+            facingMode: { ideal: 'environment' },
+            focusMode: 'continuous',
+            torch: true,
+            zoom: { ideal: 3 }, // slight zoom helps barcodes
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
           } as any,
         });
 
