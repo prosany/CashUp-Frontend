@@ -51,22 +51,22 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
     // Setup decode hints
     const hints = new Map();
     hints.set(DecodeHintType.POSSIBLE_FORMATS, [
-      BarcodeFormat.AZTEC,
-      BarcodeFormat.CODABAR,
-      BarcodeFormat.CODE_39,
-      BarcodeFormat.CODE_93,
-      BarcodeFormat.CODE_128,
-      BarcodeFormat.DATA_MATRIX,
-      BarcodeFormat.EAN_8,
-      BarcodeFormat.EAN_13,
-      BarcodeFormat.ITF,
-      BarcodeFormat.MAXICODE,
-      BarcodeFormat.PDF_417,
-      BarcodeFormat.RSS_14,
-      BarcodeFormat.RSS_EXPANDED,
+      // BarcodeFormat.AZTEC,
+      // BarcodeFormat.CODABAR,
+      // BarcodeFormat.CODE_39,
+      // BarcodeFormat.CODE_93,
+      // BarcodeFormat.CODE_128,
+      // BarcodeFormat.DATA_MATRIX,
+      // BarcodeFormat.EAN_8,
+      // BarcodeFormat.EAN_13,
+      // BarcodeFormat.ITF,
+      // BarcodeFormat.MAXICODE,
+      // BarcodeFormat.PDF_417,
+      // BarcodeFormat.RSS_14,
+      // BarcodeFormat.RSS_EXPANDED,
       BarcodeFormat.UPC_A,
-      BarcodeFormat.UPC_E,
-      BarcodeFormat.UPC_EAN_EXTENSION,
+      // BarcodeFormat.UPC_E,
+      // BarcodeFormat.UPC_EAN_EXTENSION,
     ]);
 
     const reader = new BrowserMultiFormatReader(hints);
@@ -97,23 +97,40 @@ const BarcodeScanner = ({ onResult, onScanComplete }: Props) => {
           videoRef.current.srcObject = stream;
         }
 
-        reader.decodeFromVideoDevice(
-          backCamera.deviceId,
-          videoRef.current!,
-          async (result, _error, controls) => {
-            controlsRef.current = controls;
+        // reader.decodeFromVideoDevice(
+        //   backCamera.deviceId,
+        //   videoRef.current!,
+        //   async (result, _error, controls) => {
+        //     controlsRef.current = controls;
 
-            if (result && !hasScanned.current) {
-              hasScanned.current = true;
+        //     if (result && !hasScanned.current) {
+        //       hasScanned.current = true;
 
-              const code = result.getText();
-              onResult(code);
+        //       const code = result.getText();
+        //       onResult(code);
 
-              await stopCamera();
-              onScanComplete?.(true);
+        //       await stopCamera();
+        //       onScanComplete?.(true);
+        //     }
+        //   }
+        // );
+
+        setTimeout(() => {
+          reader.decodeFromVideoDevice(
+            backCamera.deviceId,
+            videoRef.current!,
+            async (result, _error, controls) => {
+              controlsRef.current = controls;
+
+              if (result && !hasScanned.current) {
+                hasScanned.current = true;
+                onResult(result.getText());
+                await stopCamera();
+                onScanComplete?.(true);
+              }
             }
-          }
-        );
+          );
+        }, 800);
       })
       .catch((err) => {
         console.error(err);
